@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Plasticmind Design</title>
+    <meta name="description" content="Plasticmind Design is a full-service web design and development company based in Melrose, NY.">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#000000">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #26004d;
+            background-image: radial-gradient(at 75% 51%, hsla(354, 89%, 61%, 1) 0, hsla(354, 89%, 61%, 0) 50%), radial-gradient(at 42% 100%, hsla(262, 87%, 66%, 1) 0, hsla(262, 87%, 66%, 0) 50%), radial-gradient(at 56% 25%, hsla(275, 87%, 65%, 1) 0, hsla(275, 87%, 65%, 0) 50%), radial-gradient(at 54% 79%, hsla(174, 89%, 51%, 1) 0, hsla(174, 89%, 51%, 0) 50%);
+            min-height: 100vh;
+            position: relative;
+            width: 100vw;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 2rem;
+        }
+        
+        .pmd-logo,
+        .pmd-logo * {
+            font-size: 0;
+        }
+        
+        .pmd-logo {
+            width: 100%;
+            max-width: clamp(200px, 50vmax, 400px);
+            margin: 0 auto;
+            transition: all 1.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            position: relative;
+            box-shadow: 0;
+            display: block;
+            mix-blend-mode: overlay;
+        }
+        
+        .pmd-logo:hover {
+            transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pmd-logo rect {
+            fill: #f00;
+            transition: all 1.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        
+        .pmd-logo:hover rect {
+            fill: #fff;
+            transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        
+        .pmd-logo g path {
+            fill: #00d;
+            transition: all 1.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        
+        .pmd-logo:hover g path {
+            fill: #000;
+            transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="pmd-logo">
+            <a href="https://www.plasticmind.com" title="Visit Plasticmind.com"><svg id="pmd-logo-square" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 144">
+              <rect width="144" height="144" fill="#1b1a1a"/>
+              <g>
+                <path d="m32.58,84v-24.01h12.81c5.62,0,8.64,3.74,8.64,8.24s-3.02,8.21-8.64,8.21h-5.54v7.56h-7.27Zm14.07-15.77c0-1.3-.97-1.91-2.2-1.91h-4.61v3.78h4.61c1.22,0,2.2-.61,2.2-1.87Z" fill="#fff"/>
+                <path d="m77.65,84v-14.43l-5.36,14.43h-3.24l-5.36-14.43v14.43h-7.27v-24.01h10.04l4.21,11.52,4.21-11.52h10.04v24.01h-7.27Z" fill="#fff"/>
+                <path d="m88.81,84v-24.01h10.73c7.56,0,13.17,4.32,13.17,11.99s-5.62,12.02-13.14,12.02h-10.76Zm16.52-12.02c0-3.24-1.87-5.65-5.76-5.65h-3.49v11.34h3.46c3.64,0,5.79-2.66,5.79-5.69Z" fill="#fff"/>
+              </g>
+            </svg>
+          </a>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pmdLogo = document.querySelector('.pmd-logo');
+        const updateRate = 50; // time in milliseconds
+
+        let lastUpdateTime = 0;
+
+        function throttle(callback, wait) {
+            return function(...args) {
+                const now = Date.now();
+                if (now - lastUpdateTime >= wait) {
+                    lastUpdateTime = now;
+                    callback.apply(this, args);
+                }
+            };
+        }
+
+        function tiltElement(element, mouseX, mouseY) {
+            const {
+                width,
+                height,
+                left,
+                top
+            } = element.getBoundingClientRect();
+            const xPos = mouseX - (left + width / 2);
+            const yPos = mouseY - (top + height / 2);
+            const maxTilt = 10;
+
+            const xTilt = -(yPos / (height / 2)) * maxTilt;
+            const yTilt = (xPos / (width / 2)) * maxTilt;
+
+            element.style.transform = `perspective(1000px) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
+        }
+
+        function resetTilt(element) {
+            element.style.transform = '';
+        }
+
+        pmdLogo.addEventListener('mousemove', throttle((e) => {
+            tiltElement(pmdLogo, e.clientX, e.clientY);
+        }, updateRate));
+
+        pmdLogo.addEventListener('mouseleave', () => {
+            resetTilt(pmdLogo);
+        });
+    });
+</script>
+
+</html>
